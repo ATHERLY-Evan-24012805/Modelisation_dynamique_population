@@ -7,6 +7,12 @@ def f(y, a):
 def verhulst(y, a, K):
     return y + (a * y * (1 - (y / K)))
 
+def lotka_voltera_x(a, b, x, y):
+    return a * x - b * x * y
+
+def lotka_voltera_y(c, d, x, y):
+    return -c * y + d * x * y
+
 def explicit_euler_method(y0, t0, h, t_max, a):
     t_values = np.arange(t0, t_max + h, h)
     y_values = np.zeros(len(t_values))
@@ -58,3 +64,18 @@ def trapezes2(y0, t0, h, t_max, a):
 
         y_values[i+1] = (euler_explicit + euler_implicite)/2
     return t_values, y_values
+
+def explicit_euler_method_lotka(y0, x0, t0, h, t_max, a, b, c, d):
+    t_values = np.arange(t0, t_max + h, h)
+    y_values = np.zeros(len(t_values))
+    x_values = np.zeros(len(t_values))
+    y_values[0] = y0
+    x_values[0] = x0
+
+    for i in range(len(t_values) - 1):
+        x_temp = x_values[i]
+        y_temp = y_values[i]
+        y_values[i + 1] = y_values[i] + h * lotka_voltera_y(c, d, x_temp, y_temp)
+        x_values[i + 1] = x_values[i] + h * lotka_voltera_x(a, b, x_temp, y_temp)
+
+    return t_values, y_values, x_values
