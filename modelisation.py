@@ -4,6 +4,9 @@ from scipy.optimize import fsolve
 def f(y, a):
     return y * a
 
+def verhulst(y, a, K):
+    return y + (a * y * (1 - (y / K)))
+
 def explicit_euler_method(y0, t0, h, t_max, a):
     t_values = np.arange(t0, t_max + h, h)
     y_values = np.zeros(len(t_values))
